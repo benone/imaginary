@@ -54,7 +54,8 @@ func parseURL(request *http.Request) (*url.URL, error) {
   
 	queryUrl := request.URL.Query().Get("url")
 	fmt.Println(queryUrl)
-  return url.Parse(url.QueryUnescape(queryUrl))
+	unescapedUrl, err := url.QueryUnescape(queryUrl)
+  return url.Parse(unescapedUrl)
 }
 
 func newHTTPRequest(url *url.URL) *http.Request {
