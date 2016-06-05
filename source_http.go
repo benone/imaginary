@@ -51,8 +51,10 @@ func (s *HttpImageSource) fetchImage(url *url.URL) ([]byte, error) {
 }
 
 func parseURL(request *http.Request) (*url.URL, error) {
+  
 	queryUrl := request.URL.Query().Get("url")
-	return url.Parse(queryUrl)
+	fmt.Println(queryUrl)
+  return url.Parse(url.QueryUnescape(queryUrl))
 }
 
 func newHTTPRequest(url *url.URL) *http.Request {
