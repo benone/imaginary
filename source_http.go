@@ -3,6 +3,7 @@ import b64 "encoding/base64"
 
 import (
 	"fmt"
+  "crypto/tls"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -35,6 +36,12 @@ func (s *HttpImageSource) GetImage(req *http.Request) ([]byte, error) {
 
 func (s *HttpImageSource) fetchImage(url *url.URL) ([]byte, error) {
 	req := newHTTPRequest(url)
+  http.DefaultClient.Transport = &http.Transport{
+    TLSClientConfig: &tls.Config{
+      InsecureSkipVerify: true,
+    },
+  }
+
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("Error downloading image: %v", err)
